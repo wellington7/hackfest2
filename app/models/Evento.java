@@ -1,14 +1,18 @@
 package models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import models.exceptions.EventoInvalidoException;
 import play.data.validation.Constraints;
 
+@Table(name = "evento")
 public class Evento {
 
 	@Id
@@ -27,6 +31,9 @@ public class Evento {
 	@Column(name = "descricao")
 	@Constraints.Required
 	private Date data;
+
+	@OneToMany(mappedBy = "pessoa")
+	private List<Pessoa> pessoas;
 
 	public Evento(String titulo, String descricao, Date data)
 			throws EventoInvalidoException {
@@ -47,6 +54,14 @@ public class Evento {
 		return data;
 	}
 
+	private long getId() {
+		return id;
+	}
+
+	public List<Pessoa> getPessoas() {
+		return pessoas;
+	}
+
 	private void setTitulo(String titulo) throws EventoInvalidoException {
 		if (titulo == null)
 			throw new EventoInvalidoException("Parametro nulo");
@@ -55,15 +70,15 @@ public class Evento {
 
 	private void setDescricao(String descricao) throws EventoInvalidoException {
 		if (descricao == null)
-				throw new EventoInvalidoException("Parametro nulo");
+			throw new EventoInvalidoException("Parametro nulo");
 		this.descricao = descricao;
 	}
 
 	private void setData(Date data) throws EventoInvalidoException {
 		if (data == null)
-				throw new EventoInvalidoException("Parametro nulo");
+			throw new EventoInvalidoException("Parametro nulo");
 		if (data.compareTo(new Date()) < 0)
-				throw new EventoInvalidoException("Data inválida");
+			throw new EventoInvalidoException("Data inválida");
 		this.data = data;
 	}
 }
