@@ -9,19 +9,21 @@
 				@apresentacao()
 			</div>
 			<div class="swiper-slide" style="background-color: rgb(13, 42, 70);">
-				2
+				@visualizacao()
 			</div>
 			<div class="swiper-slide" style="background-color: rgb(13, 42, 70);">
-				3
+				@admin()
 			</div>
 		</div>
 	<div class="pagination"></div>
 </div>
 <script>
-	 
+
+	var mySwiper;
+
 	$(document).on('ready', function() {
 
-		var mySwiper = new Swiper('.swiper-container', {
+		mySwiper = new Swiper('.swiper-container', {
 			pagination : '.pagination',
 			loop : false,
 			grabCursor : true,
