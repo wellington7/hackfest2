@@ -53,7 +53,7 @@ public class Evento {
 		return data;
 	}
 
-	private long getId() {
+	public long getId() {
 		return id;
 	}
 
