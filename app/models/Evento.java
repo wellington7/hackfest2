@@ -17,7 +17,6 @@ public class Evento {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "id")
 	private long id;
 
 	@Column(name = "descricao")
@@ -33,7 +32,7 @@ public class Evento {
 	private Date data;
 
 	@OneToMany(mappedBy = "pessoa")
-	private List<Pessoa> pessoas;
+	private List<Pessoa> participantes;
 
 	public Evento(String titulo, String descricao, Date data)
 			throws EventoInvalidoException {
@@ -58,8 +57,8 @@ public class Evento {
 		return id;
 	}
 
-	public List<Pessoa> getPessoas() {
-		return pessoas;
+	public List<Pessoa> getParticipantes() {
+		return participantes;
 	}
 
 	private void setTitulo(String titulo) throws EventoInvalidoException {
