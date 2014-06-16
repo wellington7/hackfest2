@@ -4,6 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -11,24 +15,24 @@ import models.exceptions.PessoaInvalidaException;
 
 import org.hibernate.validator.constraints.Email;
 
-@Entity
-@Table(name = "pessoa")
+@MappedSuperclass
 public class Pessoa {
+	@Id
+	@GeneratedValue
+	private long id;
 	
 	private static final String EMAIL_PATTERN = 
 			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-	@Id
-	@GeneratedValue
-	private long id;
 
-	@Column(name = "nome")
+	@ManyToOne
+	private Evento evento;
+	
 	@Email
 	@NotNull
 	private String nome;
 
-	@Column(name = "email")
 	@Email
 	@NotNull
 	private String email;
@@ -58,6 +62,14 @@ public class Pessoa {
 		if (!email.matches(EMAIL_PATTERN))
 			throw new PessoaInvalidaException("Email inválido");
 		this.email = email;
+	}
+
+	public Evento getEvento() {
+		return evento;
+	}
+
+	public void setEvento(Evento evento) {
+		this.evento = evento;
 	}
 
 }
