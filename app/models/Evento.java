@@ -3,14 +3,17 @@ package models;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import models.exceptions.EventoInvalidoException;
 import play.data.validation.Constraints;
@@ -36,13 +39,22 @@ public class Evento {
 	private List<Participante> participantes;
 
 	@ManyToOne
+	@NotNull
 	private Admin administrador;
 
-	public Evento(String titulo, String descricao, Date data)
+	@ElementCollection
+	@Enumerated(value = EnumType.ORDINAL)
+	@NotNull
+	private List<Tema> temas;
+
+	public Evento(String titulo, String descricao, Date data,
+			Admin administrador, List<Tema> temas)
 			throws EventoInvalidoException {
 		setTitulo(titulo);
 		setDescricao(descricao);
 		setData(data);
+		setTemas(temas);
+		this.administrador = administrador;
 	}
 
 	public String getTitulo() {
@@ -84,8 +96,18 @@ public class Evento {
 	public List<Participante> getParticipantes() {
 		return participantes;
 	}
-	
+
 	public Admin getAdmin() {
 		return administrador;
+	}
+
+	private void setTemas(List<Tema> temas) throws EventoInvalidoException {
+		if (temas == null)
+			throw new EventoInvalidoException("Parametro nulo");
+		this.temas = temas;
+	}
+
+	public List<Tema> getTemas() {
+		return temas;
 	}
 }
