@@ -22,40 +22,21 @@ public class Evento {
 	@GeneratedValue
 	private long id;
 
-	@Column(name = "titulo")
 	@Constraints.Required
 	private String titulo;
 
-	@Column(name = "descricao")
 	@Constraints.Required
 	private String descricao;
 
-	@Column(name = "data")
 	@Temporal(value = TemporalType.DATE)
 	@Constraints.Required
 	private Date data;
 
 	@OneToMany(mappedBy = "evento")
-	private List<Pessoa> participantes;
-
-	public void setParticipantes(List<Pessoa> participantes) {
-		this.participantes = participantes;
-	}
-
-	public List<Pessoa> getParticipantes() {
-		return participantes;
-	}
+	private List<Participante> participantes;
 
 	@ManyToOne
 	private Admin administrador;
-
-	public Admin getAdmin() {
-		return administrador;
-	}
-
-	public void setAdmin(Admin admin) {
-		this.administrador = admin;
-	}
 
 	public Evento(String titulo, String descricao, Date data)
 			throws EventoInvalidoException {
@@ -98,5 +79,13 @@ public class Evento {
 		if (data.compareTo(new Date()) < 0)
 			throw new EventoInvalidoException("Data inválida");
 		this.data = data;
+	}
+
+	public List<Participante> getParticipantes() {
+		return participantes;
+	}
+	
+	public Admin getAdmin() {
+		return administrador;
 	}
 }
