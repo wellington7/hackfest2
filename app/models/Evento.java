@@ -1,9 +1,11 @@
 package models;
 
+import java.awt.image.TileObserver;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -16,23 +18,27 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import models.exceptions.EventoInvalidoException;
-import play.data.validation.Constraints;
+import play.data.validation.Constraints.MaxLength;
+import play.data.validation.Constraints.Required;
 
 @Entity
-public class Evento{
+public class Evento {
 
 	@Id
 	@GeneratedValue
 	private long id;
 
-	@Constraints.Required
+	@Required
+	@MaxLength(value = 30)
 	private String titulo;
 
-	@Constraints.Required
+	@Required
+	@MaxLength(value = 450)
+	@Column(name="CONTENT", length = 450)
 	private String descricao;
 
 	@Temporal(value = TemporalType.DATE)
-	@Constraints.Required
+	@Required
 	private Date data;
 
 	@OneToMany(mappedBy = "evento")
@@ -44,7 +50,7 @@ public class Evento{
 	private List<Tema> temas = new ArrayList<>();
 
 	public Evento() { }
-	
+
 	public Evento(String titulo, String descricao, Date data, List<Tema> temas)
 			throws EventoInvalidoException {
 		setTitulo(titulo);
@@ -72,12 +78,16 @@ public class Evento{
 	public void setTitulo(String titulo) throws EventoInvalidoException {
 		if (titulo == null)
 			throw new EventoInvalidoException("Parametro nulo");
+		if (titulo.length() > 30)
+			throw new EventoInvalidoException("Título longo");
 		this.titulo = titulo;
 	}
 
 	public void setDescricao(String descricao) throws EventoInvalidoException {
 		if (descricao == null)
 			throw new EventoInvalidoException("Parametro nulo");
+		if (descricao.length() > 450)
+			throw new EventoInvalidoException("Descrição longa");
 		this.descricao = descricao;
 	}
 
@@ -88,14 +98,16 @@ public class Evento{
 			throw new EventoInvalidoException("Data inválida");
 		this.data = data;
 	}
-	
-	public Integer getTotalDeParticipantes(){
+
+	public Integer getTotalDeParticipantes() {
 		return participantes.size();
 	}
 
 	public void setTemas(List<Tema> temas) throws EventoInvalidoException {
 		if (temas == null)
 			throw new EventoInvalidoException("Parametro nulo");
+		if (temas.size() == 0)
+			throw new EventoInvalidoException("Nenhum tema");
 		this.temas = temas;
 	}
 

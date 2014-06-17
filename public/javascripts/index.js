@@ -191,7 +191,7 @@ function createValidations(){
         rules:{ 
             titulo:{ 
                 required: true,
-                minlength: 5
+            	maxlength: 30
             },
             data:{ 
                 required: true,
@@ -208,7 +208,7 @@ function createValidations(){
         messages:{
         	titulo:{ 
                 required: "É necessário um título.",
-                minlength: "O título deve conter no mínimo 5 caracteres."
+                maxlength: "O título deve conter no máximo 30 caracteres."
             },
             data:{ 
                 required: "A data é obrigatoria."

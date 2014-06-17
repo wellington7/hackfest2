@@ -11,16 +11,15 @@ import models.exceptions.PessoaInvalidaException;
 import org.hibernate.validator.constraints.Email;
 
 @Entity
-public class Participante{
+public class Participante {
 
 	private final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-
 	@Id
 	@GeneratedValue
 	private long id;
-	
+
 	@NotNull
 	private String nome;
 
@@ -31,13 +30,16 @@ public class Participante{
 	@ManyToOne
 	private Evento evento;
 
-	public Participante() { }
-	
-	public Participante(String nome, String email)
-			throws PessoaInvalidaException {
-		
+	public Participante() {
 	}
-	
+
+	public Participante(String nome, String email, Evento evento)
+			throws PessoaInvalidaException {
+		setNome(nome);
+		setEmail(email);
+		setEvento(evento);
+	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -64,7 +66,9 @@ public class Participante{
 		return evento;
 	}
 
-	public void setEvento(Evento evento) {
+	public void setEvento(Evento evento) throws PessoaInvalidaException {
+		if (evento == null)
+			throw new PessoaInvalidaException("Parametro nulo");
 		this.evento = evento;
 	}
 }

@@ -16,7 +16,7 @@ public class Application extends Controller {
 	@Transactional
     public static Result index() throws PessoaInvalidaException, EventoInvalidoException {
 		
-        return ok(index.render("Your new application is ready."));
+        return ok(index.render());
     }
 
 }

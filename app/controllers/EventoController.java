@@ -57,19 +57,6 @@ public class EventoController extends Controller {
 		Form<Evento> eventoFormRequest = eventoForm.bindFromRequest();
 
 		if (eventoForm.hasErrors()) {
-
-			String errorMsg = "";
-			java.util.Map<String, List<play.data.validation.ValidationError>> errorsAll = eventoForm
-					.errors();
-			for (String field : errorsAll.keySet()) {
-				errorMsg += field + " ";
-				for (ValidationError error : errorsAll.get(field)) {
-					errorMsg += error.message() + ", ";
-				}
-			}
-
-			System.err.println("Erro no formulário: " + errorMsg);
-
 			return badRequest();
 		} else {
 			Evento novoEvento = eventoFormRequest.get();
@@ -84,19 +71,7 @@ public class EventoController extends Controller {
 	public static Result participar(long id) throws PessoaInvalidaException, EventoInvalidoException{
 		Form<Participante> participanteFormRequest = participanteForm.bindFromRequest();
 		
-		if (participanteFormRequest.hasErrors()) {
-			String errorMsg = "";
-			java.util.Map<String, List<play.data.validation.ValidationError>> errorsAll = participanteForm
-					.errors();
-			for (String field : errorsAll.keySet()) {
-				errorMsg += field + " ";
-				for (ValidationError error : errorsAll.get(field)) {
-					errorMsg += error.message() + ", ";
-				}
-			}
-
-			System.err.println("Erro no formulário: " + errorMsg);
-			
+		if (participanteForm.hasErrors()) {
 			return badRequest();
 		} else {
 			Evento evento = Application.dao.findByEntityId(Evento.class, id);
