@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,7 +19,7 @@ import models.exceptions.EventoInvalidoException;
 import play.data.validation.Constraints;
 
 @Entity
-public class Evento {
+public class Evento{
 
 	@Id
 	@GeneratedValue
@@ -36,25 +36,21 @@ public class Evento {
 	private Date data;
 
 	@OneToMany(mappedBy = "evento")
-	private List<Participante> participantes;
-
-	@ManyToOne
-	@NotNull
-	private Admin administrador;
+	private List<Participante> participantes = new ArrayList<>();
 
 	@ElementCollection
 	@Enumerated(value = EnumType.ORDINAL)
 	@NotNull
-	private List<Tema> temas;
+	private List<Tema> temas = new ArrayList<>();
 
-	public Evento(String titulo, String descricao, Date data,
-			Admin administrador, List<Tema> temas)
+	public Evento() { }
+	
+	public Evento(String titulo, String descricao, Date data, List<Tema> temas)
 			throws EventoInvalidoException {
 		setTitulo(titulo);
 		setDescricao(descricao);
 		setData(data);
 		setTemas(temas);
-		this.administrador = administrador;
 	}
 
 	public String getTitulo() {
@@ -73,19 +69,19 @@ public class Evento {
 		return id;
 	}
 
-	private void setTitulo(String titulo) throws EventoInvalidoException {
+	public void setTitulo(String titulo) throws EventoInvalidoException {
 		if (titulo == null)
 			throw new EventoInvalidoException("Parametro nulo");
 		this.titulo = titulo;
 	}
 
-	private void setDescricao(String descricao) throws EventoInvalidoException {
+	public void setDescricao(String descricao) throws EventoInvalidoException {
 		if (descricao == null)
 			throw new EventoInvalidoException("Parametro nulo");
 		this.descricao = descricao;
 	}
 
-	private void setData(Date data) throws EventoInvalidoException {
+	public void setData(Date data) throws EventoInvalidoException {
 		if (data == null)
 			throw new EventoInvalidoException("Parametro nulo");
 		if (data.compareTo(new Date()) < 0)
@@ -96,12 +92,12 @@ public class Evento {
 	public List<Participante> getParticipantes() {
 		return participantes;
 	}
-
-	public Admin getAdmin() {
-		return administrador;
+	
+	public int getTotalDeParticipantes(){
+		return participantes.size();
 	}
 
-	private void setTemas(List<Tema> temas) throws EventoInvalidoException {
+	public void setTemas(List<Tema> temas) throws EventoInvalidoException {
 		if (temas == null)
 			throw new EventoInvalidoException("Parametro nulo");
 		this.temas = temas;

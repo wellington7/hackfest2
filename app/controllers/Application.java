@@ -1,6 +1,5 @@
 package controllers;
 
-import models.Tema;
 import models.exceptions.EventoInvalidoException;
 import models.exceptions.PessoaInvalidaException;
 import play.db.jpa.Transactional;

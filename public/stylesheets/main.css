@@ -73,3 +73,7 @@ body,html {
 .swiper-active-switch {
 	background: #fff;
 }
+
+.tooltip {
+    top: 40px;
+}

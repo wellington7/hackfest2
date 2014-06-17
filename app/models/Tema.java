@@ -5,7 +5,7 @@ public enum Tema {
 	ARDUINO(0, "Arduino"), ANDROID(1, "Android"), PROGRAMACAO(2, "Programação"),
 	MARATONA(3, "Maratona"), DESAFIOS(4, "Desafios"), JAVA(5, "JAVA"),
 	PYTHON(6, "Python"), ELETRONICA(7, "Eletrônica"), PROJETOS(8, "Projetos"),
-	WEB(9, "Web"), ASPNET(10, "Asp.net"), JOGOS(11, "Jogos");
+	WEB(9, "Web"), ASPNET(10, "Aspx.net"), JOGOS(11, "Jogos");
 
 	private final Integer tipo;
 

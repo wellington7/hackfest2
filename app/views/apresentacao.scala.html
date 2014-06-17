@@ -9,8 +9,8 @@
 			<h2 class="col-sm-12" style="font-size: 20px; text-align: justify">Este
 				espaço destina-se a divulgação de eventos para você que é apaixonado
 				por tecnologia. Aqui você poderá acompanhar, participar e cadastrar
-				futuros para que em grupo possam debater e construir algo
-				bastante interessante e criativo de acordo com o tema escolhido.</h2>
+				eventos na área de tecnologia da informação para que em grupo possam debater e construir algo
+				bastante interessante e criativo. Divirtam-se!</h2>
 		</div>
 	</div>
 </div>
@@ -19,45 +19,14 @@
 	<div class="col-sm-7" style="padding: 10px 40px 40px 40px;">
 		<div class="row">
 			<h1 class="col-sm-11" style="font-size: 30px; margin-top:0px;margin-bottom:20px">
-				<b>Eventos quentes</b>
+				<b>Temas</b>
 			</h1>
 		</div>
-		<div style="overflow:auto;max-height:184px">
-				<table class="table table-striped" style="background-color:white;color:black">
-					<tbody>
-						<tr>
-							<td>1</td>
-							<td>Mark</td>
-							<td>Otto</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>Jacob</td>
-							<td>Thornton</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>Larry</td>
-							<td>the Bird</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>Larry</td>
-							<td>the Bird</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>Larry</td>
-							<td>the Bird</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>Larry</td>
-							<td>the Bird</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+		<div id="principal-temas" style="height:184px !important;max-height:184px;overflow:auto" class="list-group">
+		  @for(tema <- Tema.values()){
+		  	<a href="#" class="list-group-item" data-id="@tema.getTipo()">@tema</a>
+		  }
+		</div>
 	</div>
 	<div class="col-sm-3" style="margin-left: 12px;padding: 10px 40px 40px 40px;margin-bottom: 10px; border-radius: 4px;height:263px !important;width: 40.6% !important;">
 		<button class="btn btn-danger col-sm-12" style="padding:30px;font-size:30px;margin-top:9px" data-toggle="modal" data-target="#loginModal" onclick="mySwiper.swipeTo(2);"><i class="fa fa-calendar"></i>&nbsp;&nbsp;Cadastrar um evento</button>
