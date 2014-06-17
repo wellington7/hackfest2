@@ -8,14 +8,10 @@ import java.util.List;
 
 import models.Evento;
 import models.EventoComparator;
+import models.Participante;
 import models.Tema;
-import models.dao.GenericDAO;
-import models.dao.GenericDAOImpl;
 import models.exceptions.EventoInvalidoException;
 import models.exceptions.PessoaInvalidaException;
-
-import org.apache.commons.lang.ArrayUtils;
-
 import play.data.Form;
 import play.data.validation.ValidationError;
 import play.db.jpa.Transactional;
@@ -26,13 +22,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class EventoController extends Controller {
 
-	private static GenericDAO dao = new GenericDAOImpl();
-	final static Form<Evento> metaForm = form(Evento.class);
+	final static Form<Evento> eventoForm = form(Evento.class);
+	final static Form<Participante> participanteForm = form(Participante.class);
 
 	@Transactional
 	public static Result eventosPorTema(int id) throws PessoaInvalidaException, EventoInvalidoException{
 	
-		List<Evento> todosEventos = dao.findAllByClassName("Evento");
+		List<Evento> todosEventos = Application.dao.findAllByClassName("Evento");
 		
 		List<Evento> eventosRequeridos = new ArrayList<>();
 		
@@ -58,7 +54,7 @@ public class EventoController extends Controller {
 	
 	@Transactional
 	public static Result novo() throws PessoaInvalidaException, EventoInvalidoException{
-		Form<Evento> eventoForm = metaForm.bindFromRequest();
+		Form<Evento> eventoFormRequest = eventoForm.bindFromRequest();
 
 		if (eventoForm.hasErrors()) {
 
@@ -76,10 +72,37 @@ public class EventoController extends Controller {
 
 			return badRequest();
 		} else {
-			Evento novoEvento = eventoForm.get();
-			dao.persist(novoEvento);
-			dao.merge(novoEvento);
-			dao.flush();
+			Evento novoEvento = eventoFormRequest.get();
+			Application.dao.persist(novoEvento);
+			Application.dao.merge(novoEvento);
+			Application.dao.flush();
+			return redirect(controllers.routes.Application.index());
+		}
+	}
+	
+	@Transactional
+	public static Result participar(long id) throws PessoaInvalidaException, EventoInvalidoException{
+		Form<Participante> participanteFormRequest = participanteForm.bindFromRequest();
+		
+		if (participanteFormRequest.hasErrors()) {
+			String errorMsg = "";
+			java.util.Map<String, List<play.data.validation.ValidationError>> errorsAll = participanteForm
+					.errors();
+			for (String field : errorsAll.keySet()) {
+				errorMsg += field + " ";
+				for (ValidationError error : errorsAll.get(field)) {
+					errorMsg += error.message() + ", ";
+				}
+			}
+
+			System.err.println("Erro no formulário: " + errorMsg);
+			
+			return badRequest();
+		} else {
+			Participante novoParticipante = participanteFormRequest.get();
+			Application.dao.persist(novoParticipante);
+			Application.dao.merge(novoParticipante);
+			Application.dao.flush();
 			return redirect(controllers.routes.Application.index());
 		}
 	}

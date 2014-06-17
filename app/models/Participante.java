@@ -31,6 +31,8 @@ public class Participante{
 	@ManyToOne
 	private Evento evento;
 
+	public Participante() { }
+	
 	public Participante(String nome, String email)
 			throws PessoaInvalidaException {
 		
