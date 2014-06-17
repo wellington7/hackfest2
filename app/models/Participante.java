@@ -42,7 +42,7 @@ public class Participante{
 		return nome;
 	}
 
-	private void setNome(String nome) throws PessoaInvalidaException {
+	public void setNome(String nome) throws PessoaInvalidaException {
 		if (nome == null)
 			throw new PessoaInvalidaException("Parametro nulo");
 		this.nome = nome;
@@ -52,7 +52,7 @@ public class Participante{
 		return email;
 	}
 
-	private void setEmail(String email) throws PessoaInvalidaException {
+	public void setEmail(String email) throws PessoaInvalidaException {
 		if (email == null)
 			throw new PessoaInvalidaException("Parametro nulo");
 		if (!email.matches(EMAIL_PATTERN))

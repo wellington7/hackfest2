@@ -20,7 +20,7 @@
 					<table class="table table-striped" style="background-color:white;color:black">
 					<thead>
 						<tr style="font-style:bold">
-							<td style="width:35%"><b>Título</b></td>
+							<td style="width:35%;text-overflow-mode: ellipsis;"><b>Título</b></td>
 							<td style="width:15%"><b>Data</b></td>
 							<td style="width:20%"><b>Detalhes</b></td>
 							<td style="width:20%"><b>Participar</b></td>
@@ -39,10 +39,10 @@
 
 <table style="display:none" id="evento-template">
 	<tr>
-		<td class="titulo"></td>
+		<td class="titulo" style="width:290px;max-width:290px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;" max="15"></td>
 		<td class="data"></td>
-		<td><button class="btn btn-primary">Mais informações</button></td>
-		<td><button class="btn btn-warning" data-toggle="modal" data-target="#modalParticipar">Participar</button></td>
+		<td><button class="btn btn-primary btn-maisInformacoes">Mais informações</button></td>
+		<td><button class="btn btn-warning btn-participar" data-toggle="modal" data-target="#modalParticipar">Participar</button></td>
 		<td class="total-participantes">11</td>
 	</tr>
 </table>

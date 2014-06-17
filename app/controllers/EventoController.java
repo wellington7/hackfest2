@@ -37,7 +37,7 @@ public class EventoController extends Controller {
 				eventosRequeridos.add(ev);
 			}
 		}
-		
+
 		Collections.sort(eventosRequeridos, new EventoComparator());
 		
 		ObjectMapper mapper = new ObjectMapper();
@@ -99,7 +99,10 @@ public class EventoController extends Controller {
 			
 			return badRequest();
 		} else {
+			Evento evento = Application.dao.findByEntityId(Evento.class, id);
 			Participante novoParticipante = participanteFormRequest.get();
+			novoParticipante.setEvento(evento);
+			
 			Application.dao.persist(novoParticipante);
 			Application.dao.merge(novoParticipante);
 			Application.dao.flush();

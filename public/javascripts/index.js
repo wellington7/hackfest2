@@ -29,9 +29,27 @@ $(document).on('ready', function(event) {
 	
 						table.find('tr').attr('data-info', JSON.stringify(data[i]));
 	
-						table.find('.titulo').html(data[i].titulo);
+						table.find('.titulo').html(data[i].titulo).attr('title', data[i].titulo);
 						table.find('.data').html(new Date(data[i].data).toLocaleDateString());
 						table.find('.total-participantes').html(data[i].totalDeParticipantes);
+
+						table.find('.btn-participar').on('click', function(){
+							var idEvento = $(this).parent().parent().data('info').id;
+							$('#form-evento-id').val(idEvento)
+						});
+						
+						table.find('.btn-maisInformacoes').on('click', function(){
+							var modal = $("#modalMaisInformacoes");
+							var infoEvento = $(this).parent().parent().data('info');
+							
+							modal.find('.modal-titulo-evento').html(infoEvento.titulo);
+							modal.find('.modal-descricao-evento').html(infoEvento.descricao);
+							modal.find('.modal-data-evento').val(new Date(infoEvento.data).toLocaleDateString());
+							modal.find('.modal-total-evento').val(infoEvento.totalDeParticipantes);
+							
+							modal.modal('show');
+						});
+						
 						$('#eventos-principal').append(table.find('tr'));
 					}
 				}else{
@@ -44,42 +62,84 @@ $(document).on('ready', function(event) {
 	$('#form-novo-evento').on('submit', function(e){
 
 		e.preventDefault();
-		
-		var tooltips = $('#criacao-temas .tooltip');
-		
-		$.each(tooltips, function(){
-			$(this).css('left',parseInt($('.tooltip').css('left')) + 90 + 'px');
-		});
-		
-		$.ajax({
-			url : $(this).attr('action'),
-			data: new FormData(this),
-			type : 'POST',
-			mimeType:"multipart/form-data",
-		    contentType: false,
-	        cache: false,
-	        processData:false,
-			success : function(result) {
-				$('#temas .active').trigger('click');
-				$('#form-novo-evento')[0].reset();
-				
-				$('.top-right').notify({
-					 message : {
-					 	text : 'Evento criado com sucesso'
-					 },
-					 type : "success"
-				 }).show(); 
-			},
-			error: function (){
-				 $('.top-right').notify({
-					 message : {
-					 	text : 'Erro ao criar o evento'
-					 },
-					 type : "danger"
-				 }).show(); 
-			}
-		});
+		if($(this).valid()){
+			$.ajax({
+				url : $(this).attr('action'),
+				data: new FormData(this),
+				type : 'POST',
+				mimeType:"multipart/form-data",
+			    contentType: false,
+		        cache: false,
+		        processData:false,
+				success : function(result) {
+					$('#temas .active').trigger('click');
+					$('#form-novo-evento')[0].reset();
+					
+					$('.top-right').notify({
+						 message : {
+						 	text : 'Evento criado com sucesso'
+						 },
+						 type : "success"
+					 }).show(); 
+				},
+				error: function (){
+					 $('.top-right').notify({
+						 message : {
+						 	text : 'Erro ao criar o evento'
+						 },
+						 type : "danger"
+					 }).show(); 
+				}
+			});
+		}else{
+			var tooltips = $('#criacao-temas .tooltip');
+			
+			$.each(tooltips, function(){
+				$(this).css('left',parseInt($('.tooltip').css('left')) + 90 + 'px');
+			});
+			
+		}
 	});
+	
+	$('#form-participar').on('submit', function(e){
+		e.preventDefault();
+		
+		if($(this).valid()){
+			$.ajax({
+				url : "eventos/" + $('#form-evento-id').val() + "/participar",
+				data: new FormData(this),
+				type : 'POST',
+				mimeType:"multipart/form-data",
+			    contentType: false,
+		        cache: false,
+		        processData:false,
+				success : function(result) {
+					$('#temas .active').trigger('click');
+					
+					$('#modalParticipar').modal('hide');
+					
+					$('.top-right').notify({
+						 message : {
+						 	text : 'Evento criado com sucesso'
+						 },
+						 type : "success"
+					 }).show(); 
+				},
+				error: function (){
+					 $('.top-right').notify({
+						 message : {
+						 	text : 'Erro ao criar o evento'
+						 },
+						 type : "danger"
+					 }).show(); 
+				}
+			});
+		}
+	});
+	
+	$('#modalParticipar').on('hidden.bs.modal', function (e) {
+		$('#form-participar')[0].reset();
+	})
 
 	$('#temas a:first').trigger('click')
 
@@ -97,6 +157,36 @@ function createValidations(){
 	        || (Number(value) > Number($(params).val())); 
 	},'A data deve ser maior que a atual.');
 	
+	
+	jQuery.validator.addMethod('regex', function(value, element, regexp) {
+		var re = new RegExp(regexp);
+        return this.optional(element) || re.test(value);
+	},'Please check your input.');
+	
+
+	$('#form-participar').validate({
+		rules:{ 
+            nome:{
+            	required: true
+            },
+            email:{
+            	required: true,
+            	regex: "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+            }
+        },
+        messages:{
+            nome :{
+            	required: "Nome é obrigatório."
+            },
+            
+            email:{
+            	required: "Email é obrigatório.",
+            	regex: "Digite um email válido."
+            }
+            
+        }
+	});
+	
 	$('#form-novo-evento').validate({
         rules:{ 
             titulo:{ 
@@ -109,11 +199,10 @@ function createValidations(){
             },
             descricao:{
             	required: true,
-            	minlength: 10
+            	maxlength: 450
             },
             'temas[]':{
-            	required: true,
-            	minlength: 1
+            	required: true
             }
         },
         messages:{
@@ -125,14 +214,12 @@ function createValidations(){
                 required: "A data é obrigatoria."
             },
             descricao:{
-            	required: "É necessário uma descrição",
-                minlength: "A descrição deve conter no mínimo 10 caracteres."
+            	required: "É necessário uma descrição.",
+                maxlength: "A descrição deve conter no máximo 350 caracteres."
             },
             'temas[]':{
-            	required: "É necessário escolher pelo menos 1 tema.",
-            	minlength: "É necessário escolher pelo menos 1 tema."
-            }
-            
+            	required: "É necessário escolher pelo menos 1 tema."
+            }            
         }
          
     });

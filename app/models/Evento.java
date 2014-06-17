@@ -88,12 +88,8 @@ public class Evento{
 			throw new EventoInvalidoException("Data inválida");
 		this.data = data;
 	}
-
-	public List<Participante> getParticipantes() {
-		return participantes;
-	}
 	
-	public int getTotalDeParticipantes(){
+	public Integer getTotalDeParticipantes(){
 		return participantes.size();
 	}
 
