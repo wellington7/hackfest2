@@ -191,7 +191,7 @@ function createValidations(){
         rules:{ 
             titulo:{ 
                 required: true,
-            	maxlength: 30
+            	maxlength: 40
             },
             data:{ 
                 required: true,

@@ -42,6 +42,18 @@ public class ParticipanteTest {
 	@Test
 	public void deveOcorrerException() {
 		try {
+			new Participante("João José da Silva Maria da Penha do Ultimo Socorro Pereira Lima Roberto", "joao_jose@mail.com", evento);
+			fail();
+		} catch (PessoaInvalidaException e) {
+			assertEquals("Nome longo", e.getMessage());
+		}
+		try {
+			new Participante("João José da Silva", "joao_jose_da_silva_maria_da_penha_do_ultimo_socorro_pereira_lima@mail.com", evento);
+			fail();
+		} catch (PessoaInvalidaException e) {
+			assertEquals("Email longo", e.getMessage());
+		}
+		try {
 			new Participante(null, "joao_jose@mail.com", evento);
 			fail();
 		} catch (PessoaInvalidaException e) {

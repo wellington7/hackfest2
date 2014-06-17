@@ -83,7 +83,7 @@ public class EventoTest {
 			assertEquals("Descrição longa", e.getMessage());
 		}
 		try {
-			new Evento("Python na cabeça na mente e no coração",
+			new Evento("Python na cabeça na mente e no coração uhuuu",
 					"Vamos programar em Python!", new Date(), null);
 			fail();
 		} catch (EventoInvalidoException e) {

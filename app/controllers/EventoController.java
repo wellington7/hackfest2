@@ -13,7 +13,6 @@ import models.Tema;
 import models.exceptions.EventoInvalidoException;
 import models.exceptions.PessoaInvalidaException;
 import play.data.Form;
-import play.data.validation.ValidationError;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;

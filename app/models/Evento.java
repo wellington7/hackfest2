@@ -1,6 +1,5 @@
 package models;
 
-import java.awt.image.TileObserver;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,12 +28,12 @@ public class Evento {
 	private long id;
 
 	@Required
-	@MaxLength(value = 30)
+	@MaxLength(value = 40)
 	private String titulo;
 
 	@Required
 	@MaxLength(value = 450)
-	@Column(name="CONTENT", length = 450)
+	@Column(name = "CONTENT", length = 450)
 	private String descricao;
 
 	@Temporal(value = TemporalType.DATE)
@@ -49,7 +48,8 @@ public class Evento {
 	@NotNull
 	private List<Tema> temas = new ArrayList<>();
 
-	public Evento() { }
+	public Evento() {
+	}
 
 	public Evento(String titulo, String descricao, Date data, List<Tema> temas)
 			throws EventoInvalidoException {
@@ -75,10 +75,18 @@ public class Evento {
 		return id;
 	}
 
+	public Integer getTotalDeParticipantes() {
+		return participantes.size();
+	}
+
+	public List<Tema> getTemas() {
+		return temas;
+	}
+
 	public void setTitulo(String titulo) throws EventoInvalidoException {
 		if (titulo == null)
 			throw new EventoInvalidoException("Parametro nulo");
-		if (titulo.length() > 30)
+		if (titulo.length() > 40)
 			throw new EventoInvalidoException("Título longo");
 		this.titulo = titulo;
 	}
@@ -99,19 +107,11 @@ public class Evento {
 		this.data = data;
 	}
 
-	public Integer getTotalDeParticipantes() {
-		return participantes.size();
-	}
-
 	public void setTemas(List<Tema> temas) throws EventoInvalidoException {
 		if (temas == null)
 			throw new EventoInvalidoException("Parametro nulo");
 		if (temas.size() == 0)
 			throw new EventoInvalidoException("Nenhum tema");
 		this.temas = temas;
-	}
-
-	public List<Tema> getTemas() {
-		return temas;
 	}
 }
