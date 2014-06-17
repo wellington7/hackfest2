@@ -2,15 +2,14 @@
 	font-family: 'Short Stack';
 	font-style: normal;
 	font-weight: 400;
-	src: local('Short Stack'), local('Arial'),
-		url('../fonts/Arial.woff') format('woff');
+	src: local('Short Stack'), local('Arial'), url('../fonts/Arial.woff')
+		format('woff');
 }
-
 
 body,html {
 	height: 92%;
 	width: 100%;
-	font-family:Arial;
+	font-family: Arial;
 	background-color: rgb(13, 42, 70) !important;
 	color: white !important;
 }
@@ -75,5 +74,49 @@ body,html {
 }
 
 .tooltip {
-    top: 40px;
+	top: 40px;
 }
+
+.div-btn-big-container {
+	margin-left: 12px;
+	padding: 10px 40px 40px 40px;
+	margin-bottom: 10px;
+	border-radius: 4px;
+	height: 263px !important;
+	margin-top: 0px;
+	width: 40.6% !important;
+}
+
+.div-btn-big-container button{
+	padding: 30px !important;
+	font-size: 30px;
+}
+
+
+
+@media screen and (min-width: 991px) and (max-width: 1200px) {
+	.div-btn-big-container button{
+		padding: 10px;
+		font-size: 25px;
+	}
+	
+	.div-btn-big-container {
+		margin-top: 13px;
+		width: 38% !important;
+	}
+}
+
+@media screen and (min-width: 728px) and (max-width: 991px) {
+	.div-btn-big-container button{
+		padding: 10px !important;
+		padding-top: 30px !important;
+		padding-bottom: 30px !important;
+		font-size: 20px !important;
+	}
+	
+	.div-btn-big-container {
+		margin-top: 26px;
+		width: 37% !important;
+	}
+}
+
