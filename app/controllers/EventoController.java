@@ -21,13 +21,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class EventoController extends Controller {
 
-	final static Form<Evento> eventoForm = form(Evento.class);
-	final static Form<Participante> participanteForm = form(Participante.class);
+	private final static Form<Evento> EVENTO_FORM = form(Evento.class);
+	private final static Form<Participante> participanteForm = form(Participante.class);
 
 	@Transactional
 	public static Result eventosPorTema(int id) throws PessoaInvalidaException, EventoInvalidoException{
 	
-		List<Evento> todosEventos = Application.dao.findAllByClassName("Evento");
+		List<Evento> todosEventos = Application.getDao().findAllByClassName("Evento");
 		
 		List<Evento> eventosRequeridos = new ArrayList<>();
 		
@@ -53,15 +53,15 @@ public class EventoController extends Controller {
 	
 	@Transactional
 	public static Result novo() throws PessoaInvalidaException, EventoInvalidoException{
-		Form<Evento> eventoFormRequest = eventoForm.bindFromRequest();
+		Form<Evento> eventoFormRequest = EVENTO_FORM.bindFromRequest();
 
-		if (eventoForm.hasErrors()) {
+		if (EVENTO_FORM.hasErrors()) {
 			return badRequest();
 		} else {
 			Evento novoEvento = eventoFormRequest.get();
-			Application.dao.persist(novoEvento);
-			Application.dao.merge(novoEvento);
-			Application.dao.flush();
+			Application.getDao().persist(novoEvento);
+			Application.getDao().merge(novoEvento);
+			Application.getDao().flush();
 			return redirect(controllers.routes.Application.index());
 		}
 	}
@@ -73,13 +73,13 @@ public class EventoController extends Controller {
 		if (participanteForm.hasErrors()) {
 			return badRequest();
 		} else {
-			Evento evento = Application.dao.findByEntityId(Evento.class, id);
+			Evento evento = Application.getDao().findByEntityId(Evento.class, id);
 			Participante novoParticipante = participanteFormRequest.get();
 			novoParticipante.setEvento(evento);
 			
-			Application.dao.persist(novoParticipante);
-			Application.dao.merge(novoParticipante);
-			Application.dao.flush();
+			Application.getDao().persist(novoParticipante);
+			Application.getDao().merge(novoParticipante);
+			Application.getDao().flush();
 			return redirect(controllers.routes.Application.index());
 		}
 	}

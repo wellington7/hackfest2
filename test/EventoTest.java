@@ -24,7 +24,7 @@ public class EventoTest {
 	
 	@Test
 	public void deveCriarUmEvento() {
-		temas.add(Tema.ANDROID);
+		temas.add(Tema.ARDUINO);
 		try {
 			new Evento("Python na cabeça", "Vamos programar em Python!", new Date(), temas);
 		} catch (EventoInvalidoException _) {

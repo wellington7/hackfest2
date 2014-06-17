@@ -22,7 +22,7 @@ public class ParticipanteTest {
 	@Before
 	public void setUp(){
 		temas = new ArrayList<>();
-		temas.add(Tema.ANDROID);
+		temas.add(Tema.ARDUINO);
 		try {
 			evento = new Evento("Python na cabeça", "Vamos programar em Python!", new Date(), temas);
 		} catch (EventoInvalidoException e) {

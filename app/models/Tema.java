@@ -2,10 +2,8 @@ package models;
 
 public enum Tema {
 
-	ARDUINO(0, "Arduino"), ANDROID(1, "Android"), PROGRAMACAO(2, "Programação"),
-	MARATONA(3, "Maratona"), DESAFIOS(4, "Desafios"), JAVA(5, "JAVA"),
-	PYTHON(6, "Python"), ELETRONICA(7, "Eletrônica"), PROJETOS(8, "Projetos"),
-	WEB(9, "Web"), ASPNET(10, "Aspx.net"), JOGOS(11, "Jogos");
+	ARDUINO(0, "Arduino"), PROGRAMACAO(1, "Programação"),DESAFIOS(2, "Desafios"), 
+	WEB(3, "Web"), ELETRONICA(4, "Eletrônica");
 
 	private final Integer tipo;
 
