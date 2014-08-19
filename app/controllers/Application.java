@@ -16,6 +16,7 @@ import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
+import models.Local;
 
 public class Application extends Controller {
 	
@@ -200,6 +201,13 @@ public class Application extends Controller {
 	@Transactional
 	private static void criarParticipacao(Participante participante) {
 		dao.persist(participante);
+		dao.flush();
+	}
+	
+	//MÉTODO QUE CRIEI VER MELHOR COMO FUNCIONA
+	@Transactional
+	private static void criarLocal(Local local){
+		dao.persist(local);
 		dao.flush();
 	}
 
